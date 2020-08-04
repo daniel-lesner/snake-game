@@ -1,14 +1,14 @@
 import pygame
 
 class Snake:
-    def __init__(self,ai_game):
-        self.screen=ai_game.screen
-        self.screen_rect=ai_game.screen.get_rect()
+    def __init__(self, game):
+        self.screen = game.screen
+        self.screenRect = game.screen.get_rect()
         
         self.image=pygame.image.load("assets/snake.bmp")
-        self.image_rect=self.image.get_rect()
+        self.imageRect=self.image.get_rect()
         
-        self.image_rect.center=self.screen_rect.center
+        self.imageRect.center=self.screenRect.center
         
         
         self.moving_right=True
@@ -22,15 +22,15 @@ class Snake:
         
         
     def blitme(self):
-        self.screen.blit(self.image,self.image_rect)
+        self.screen.blit(self.image,self.imageRect)
         
         
     def update_snake_position(self):
-        if self.moving_right and self.image_rect.right<self.screen_rect.right-34:
-            self.image_rect.x+=self.speed
-        elif self.moving_left and self.image_rect.left>34:
-            self.image_rect.x-=self.speed
-        elif self.moving_up and self.image_rect.top>64:
-            self.image_rect.y-=self.speed
-        elif self.moving_down and self.image_rect.bottom<self.screen_rect.bottom-14:
-            self.image_rect.y+=self.speed
+        if self.moving_right and self.imageRect.right<self.screenRect.right-34:
+            self.imageRect.x+=self.speed
+        elif self.moving_left and self.imageRect.left>34:
+            self.imageRect.x-=self.speed
+        elif self.moving_up and self.imageRect.top>64:
+            self.imageRect.y-=self.speed
+        elif self.moving_down and self.imageRect.bottom<self.screenRect.bottom-14:
+            self.imageRect.y+=self.speed

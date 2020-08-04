@@ -2,9 +2,9 @@ import pygame
 
 class Settings:
     def __init__(self):
-        self.length=1200
-        self.heigth=800
-        self.bg_color=(140,140,140)
-        self.caption=("SNAKE ULTRA RELOADED")
+        self.backgroundColor = (125, 165, 176)
+        self.menuBackgroundColor = (98, 137, 148)
+        self.textColor = (75, 84, 77)
+        self.gameCaption = ("SNAKE")
         
     
