@@ -2,10 +2,10 @@ import pygame
 import sys
 import random
 
-from settings import Settings
-from Snake import Snake
-from Food import Food
-from Body import Body
+from Settings import Settings
+from lib.Snake import Snake
+from lib.Food import Food
+from lib.Body import Body
 
 
 class Game:
@@ -38,7 +38,7 @@ class Game:
         self.font = pygame.font.Font(pygame.font.get_default_font(), 36)
         self.font2 = pygame.font.Font(pygame.font.get_default_font(), 36)
         pygame.display.set_caption(self.settings.caption)
-        pygame.mixer.music.load("Music/Stupid_song.wav")
+        pygame.mixer.music.load("assets/firstSong.wav")
         pygame.mixer.music.play(-1,0.0)
         
         
