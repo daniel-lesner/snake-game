@@ -1,4 +1,4 @@
-# Snake-Game
+# Snake
 Replica of the infamous snake game, made in Python (pygame) using self-made music and graphics
 
 Dependent modules: pygame, sys
