@@ -16,16 +16,16 @@ class Food:
 
 
     def blitme(self):
-        self.text1 = self.font.render("PYTHON SNAKE", True, self.textColor)
-        self.text2 = self.font.render(f"POINTS: {self.foodCount}",
+        self.title = self.font.render("PYTHON SNAKE", True, self.textColor)
+        self.scoreBoard = self.font.render(f"POINTS: {self.foodCount}",
             True, self.textColor)
 
-        self.text1Rect = (
-            self.screen.get_rect().midtop[0] - self.text1.get_rect()[2] / 2,
+        self.titleRect = (
+            self.screen.get_rect().midtop[0] - self.title.get_rect()[2] / 2,
             10)
 
-        self.screen.blit(self.text1, self.text1Rect)
-        self.screen.blit(self.text2, (10, 10))
+        self.screen.blit(self.title, self.titleRect)
+        self.screen.blit(self.scoreBoard, (10, 10))
         self.screen.blit(self.food, self.foodRect)        
         
 

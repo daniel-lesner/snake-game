@@ -19,7 +19,11 @@ Implement highscore count
 Add more songs
 Add buttons for reset or quit
 Tilt snake face and body towards walking direction
+Add virtual environment with dependent modules
+Create .exe and .dmg app
+Add menu where you can choose Easy/Normal/Hard game options (with buttons)
+Add second game type, with no body and increasing speed after eating each food
 
 
 BUGs:
-Snake kills itself when quickly turning left and right
+-none observed
