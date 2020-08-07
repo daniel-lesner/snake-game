@@ -26,4 +26,5 @@ Add second game type, with no body and increasing speed after eating each food\
 
 
 BUGs:\
--none observed
+-food may span inside body of snake
+-food may span in the place where snake starts, which breaks the game

@@ -7,7 +7,7 @@ class SnakeBody:
         self.imageRect = self.image.get_rect()
 
         
-    def draw(self, foodCount, snakePosition):
+    def drawOnScreen(self, foodCount, snakePosition):
         if foodCount > 0:
             for each_point in range(1, foodCount + 1):
                 self.imageRect = snakePosition[-each_point - 1]

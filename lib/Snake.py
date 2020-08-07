@@ -12,16 +12,16 @@ class Snake:
         self.speed=50
         
          
-    def blitme(self):
+    def drawOnScreen(self):
         self.screen.blit(self.image, self.imageRect)
         
         
-    def update_snake_position(self):
-        if self.moveRight and self.imageRect.right < self.screenRect.right - 34:
+    def moveSnake(self):
+        if self.moveRight:
             self.imageRect.x += self.speed
-        elif self.moveLeft and self.imageRect.left > 34:
+        elif self.moveLeft:
             self.imageRect.x -= self.speed
-        elif self.moveUp and self.imageRect.top > 64:
+        elif self.moveUp:
             self.imageRect.y -= self.speed
-        elif self.moveDown and self.imageRect.bottom < self.screenRect.bottom - 14:
+        else:
             self.imageRect.y += self.speed
