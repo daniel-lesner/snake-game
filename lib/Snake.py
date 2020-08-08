@@ -1,6 +1,11 @@
 import pygame
 
 class Snake:
+    '''
+    This class is creating the snake, draws it on the screen and increments the
+    snake's position by 50 pixels depending the which of the arrow key the
+    player is presses
+    '''
     def __init__(self, game):
         self.screen = game.screen
         self.screenRect = game.screen.get_rect()
