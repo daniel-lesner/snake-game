@@ -23,27 +23,24 @@ class Game:
         self.clock = pygame.time.Clock()
         self.time_delay = 10
         
-
         ## Initialize the game screen on FullScreen Mode
         self.screen = pygame.display.set_mode(
             (0, 0), 
             pygame.FULLSCREEN
         )
         
-        
         ## Create an instance of each class used for this game       
         self.settings = Settings(self)
         self.snake = Snake(self)
         self.snakeBody = SnakeBody(self)
         self.food = Food(self)
-
-        
+    
         ## Define flags and other variables 
         self.screenRect = self.screen.get_rect()
         self.gameOn = True
         self.snakePosition = [self.screenRect.center]
-        
-        
+
+
     def playGame(self):
         while True:
             # Loop of the game
@@ -53,7 +50,6 @@ class Game:
 
             while self.gameOn:
                 # Loop for the actual game
-                print(self.food.highScore)
                 self._checkEvents()
                 self.snake.moveSnake()
                 self._createListWithFoodAndSnakeCoordinates()
@@ -78,9 +74,6 @@ class Game:
 
                 if event.key == pygame.K_q: sys.exit()
                 
-                elif event.key == pygame.K_r and not self.gameOn:
-                    self.gameOn = True
-
                 elif event.key == pygame.K_LEFT and not self.snake.moveRight:
                         self.snake.moveLeft = True
                         self.snake.moveUp = self.snake.moveDown = False
@@ -101,22 +94,37 @@ class Game:
                         self.snake.moveLeft = self.snake.moveRight = False
                         break
 
+            if event.type == pygame.MOUSEBUTTONDOWN and not self.gameOn:
+                mouse = pygame.mouse.get_pos()
+
+                # Respond to click press on NEW GAME button
+                if (
+                    mouse[0] in self.settings.newGameButtonXRange and 
+                    mouse[1] in self.settings.newGameButtonYRange
+                ): self.gameOn = True
+
+                # Respond to click press on QUIT button
+                if (
+                    mouse[0] in self.settings.quitButtonXRange and 
+                    mouse[1]in self.settings.quitButtonYRange
+                ): sys.exit()         
+
 
     def _updateScreen(self):
         if self.gameOn:
             self.screen.fill(self.settings.backgroundColor)
 
-            # Draw the game border and game screen play
+            # Draw the game border and game screen
             pygame.draw.rect(
                 self.screen,
                 self.settings.gameBackgroundColor,
-                [35, 65, 1850, 1000],
+                self.settings.rectangleRect,
                 0
             )
             pygame.draw.rect(
                 self.screen,
                 (0, 0, 0),
-                [35, 65, 1850, 1000],
+                self.settings.rectangleRect,
                 2
             )
 
@@ -130,32 +138,50 @@ class Game:
                 f"HIGHSCORE: {self.food.highScore}",
                 True, 
                 self.settings.textColor
-            )            
+            )
 
-            self.screen.blit(self.scoreBoard, (10, 10))
-            self.screen.blit(self.highScoreBoard, (
-                1910 - self.highScoreBoard.get_rect()[2], 10
-            ))
+            # Define the rect for highscore and score boards
+            self.highScoreBoardRect = self.highScoreBoard.get_rect()
+            self.scoreBoardRect = self.scoreBoard.get_rect()
+
+            # Define the coordinates of the highscore board
+            self.highScoreBoardCoord = (1910 - self.highScoreBoardRect[2], 10)
+
+            # Draw all elements on screen
+            self.screen.blit(self.scoreBoard, self.settings.scoreBoardCoord)
+            self.screen.blit(self.highScoreBoard, self.highScoreBoardCoord)
             self.snake.drawOnScreen()
             self.food.drawOnScreen()
             self.snakeBody.drawOnScreen(self.food.foodCount, self.snakePosition)
 
         else:
             self.screen.fill((self.settings.menuBackgroundColor))
+
+            # Create menu text item and it's size and coordinate variables
             self.menuText = self.settings.font.render(
                 f"You lost! Your last score was {self.food.foodCount} " 
-                f" and your highest score is {self.food.highScore}."
-                "Press R to restart or Q to quit!",
+                f" and your highest score is {self.food.highScore}.",
                 True,
                 self.settings.textColor
             )
-            self.menuTextRect = (
-                self.screenRect.center[0] - self.menuText.get_rect()[2] / 2,
-                self.screenRect.center[1]
+            self.menuTextRect = self.menuText.get_rect()
+            self.menuTextCoord = (
+                self.screenRect.center[0] - self.menuTextRect[2] / 2,
+                self.screenRect[3] / 3
             )
-            self.screen.blit(self.menuText, self.menuTextRect)
 
-        self.screen.blit(self.settings.title, self.settings.titleRect)
+            # Draw elements on screen
+            self.screen.blit(
+                self.settings.quitButton,
+                self.settings.quitButtonCoord
+            )
+            self.screen.blit(
+                self.settings.newGameButton,
+                self.settings.newGameButtonCoord
+            )
+            self.screen.blit(self.menuText, self.menuTextCoord)
+
+        self.screen.blit(self.settings.title, self.settings.titleCoord)
         pygame.display.flip()
 
 
@@ -181,10 +207,11 @@ class Game:
         the screen
         '''
         self.snakePosition.append(self.snake.imageRect[:])
+
         if self.food.foodCount > 0:
             self.snakePosition = self.snakePosition[-self.food.foodCount - 2:]
-        else:
-            self.snakePosition = self.snakePosition[-2:]
+        else: self.snakePosition = self.snakePosition[-2:]
+
         self.listOfBodyCoordinates = self.snakePosition[
             -self.food.foodCount - 1: -1
         ]

@@ -20,8 +20,7 @@ class Food:
         while True:
             self.foodRect.x = random.randrange(85, 1786, 50)
             self.foodRect.y = random.randrange(115, 966, 50)
-            if not (self.foodRect in self.game.snakePosition):
-                break
+            if self.foodRect not in self.game.snakePosition : break
 
 
     def increaseFoodCount(self):

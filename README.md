@@ -16,7 +16,6 @@ Pygame 1.9.6
 TO DO LIST:\
 Implement the game for different screen resolutions\
 Add more songs\
-Add buttons for reset or quit\
 Tilt snake face and body towards walking direction\
 Add virtual environment with dependent modules\
 Create .exe and .dmg app\
