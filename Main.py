@@ -50,7 +50,8 @@ class Game:
         ## Define flags and other variables 
         self.screenRect = self.screen.get_rect()
         self.gameOn = True
-        self.snakePosition = []
+        self.snakePosition = self.listWithBodyPosition = []
+        self.move = 0
         
         
     def playGame(self):
@@ -64,13 +65,11 @@ class Game:
                 # Loop for the actual game
                 self._checkEvents()
                 self.snake.moveSnake()
-                self.snakePosition.append(self.snake.imageRect[:])
-                self.listWithBodyPosition = self.snakePosition[
-                    -self.food.foodCount:-1
-                    ]
+                self._createListWithFoodAndSnakeCoordinates()
                 self._checkIfAteFood()
                 self._checkIfSnakeHitWallOrItself()
                 self._updateScreen()
+                self.move += 1
                 
             while not self.gameOn:
                 # Loop of menu screen
@@ -98,6 +97,23 @@ class Game:
                 self.food.foodRect.y + 50
                 )):
             self.food.foodEaten()
+
+    def _createListWithFoodAndSnakeCoordinates(self):
+        ''' 
+            This method is creating a list with the most recent snake head
+        coordinates. Using this list, we will know what will be the coordinates
+        of the snake's body, which will help us to render the whole snake on
+        the screen
+        '''
+        self.snakePosition.append(self.snake.imageRect[:])
+        if self.food.foodCount > 0:
+            self.snakePosition = self.snakePosition[-self.food.foodCount - 2:]
+        else:
+            self.snakePosition = self.snakePosition[-2:]
+        self.listWithBodyPosition = self.snakePosition[
+            -self.food.foodCount - 1: -1
+        ]
+
 
 
     def _checkEvents(self):
