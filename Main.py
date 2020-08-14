@@ -53,6 +53,7 @@ class Game:
 
             while self.gameOn:
                 # Loop for the actual game
+                print(self.food.highScore)
                 self._checkEvents()
                 self.snake.moveSnake()
                 self._createListWithFoodAndSnakeCoordinates()
@@ -104,6 +105,8 @@ class Game:
     def _updateScreen(self):
         if self.gameOn:
             self.screen.fill(self.settings.backgroundColor)
+
+            # Draw the game border and game screen play
             pygame.draw.rect(
                 self.screen,
                 self.settings.gameBackgroundColor,
@@ -116,12 +119,23 @@ class Game:
                 [35, 65, 1850, 1000],
                 2
             )
+
+            # Set up the score board and highscore board
             self.scoreBoard = self.settings.font.render(
                 f"POINTS: {self.food.foodCount}",
                 True, 
                 self.settings.textColor
             )
+            self.highScoreBoard = self.settings.font.render(
+                f"HIGHSCORE: {self.food.highScore}",
+                True, 
+                self.settings.textColor
+            )            
+
             self.screen.blit(self.scoreBoard, (10, 10))
+            self.screen.blit(self.highScoreBoard, (
+                1910 - self.highScoreBoard.get_rect()[2], 10
+            ))
             self.snake.drawOnScreen()
             self.food.drawOnScreen()
             self.snakeBody.drawOnScreen(self.food.foodCount, self.snakePosition)
@@ -129,8 +143,9 @@ class Game:
         else:
             self.screen.fill((self.settings.menuBackgroundColor))
             self.menuText = self.settings.font.render(
-                f"You lost! Your score was {self.food.foodCount}! " 
-                "Press R to restart or Q to quit",
+                f"You lost! Your last score was {self.food.foodCount} " 
+                f" and your highest score is {self.food.highScore}."
+                "Press R to restart or Q to quit!",
                 True,
                 self.settings.textColor
             )
@@ -194,5 +209,5 @@ class Game:
         
 
 while __name__ == "__main__":
-    my_game = Game()
-    my_game.playGame()
+    myGame = Game()
+    myGame.playGame()

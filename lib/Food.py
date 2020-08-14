@@ -8,6 +8,7 @@ class Food:
         self.food = pygame.image.load("assets/food.bmp")
         self.foodRect = self.food.get_rect()
         self.foodCount = 0
+        self.highScore = 0
 
 
     def drawOnScreen(self):
@@ -24,4 +25,6 @@ class Food:
 
 
     def increaseFoodCount(self):
+        if self.highScore <= self.foodCount: self.highScore += 1
         self.foodCount += 1
+

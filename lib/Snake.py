@@ -28,6 +28,7 @@ class Snake:
         elif self.moveUp: self.imageRect.y -= self.speed
         else: self.imageRect.y += self.speed
 
+
     def checkIfSnakeHitWallOrItself(self):
         if ((self.imageRect.x > 1835 or
             self.imageRect.x < 35 or
