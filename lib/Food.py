@@ -17,8 +17,8 @@ class Food:
     def spanFood(self):
         # While loop to make sure food does not span inside snake or it's body
         while True:
-            self.foodRect.x = random.randrange(35, 1836, 50)
-            self.foodRect.y = random.randrange(65, 1016, 50)
+            self.foodRect.x = random.randrange(85, 1786, 50)
+            self.foodRect.y = random.randrange(115, 966, 50)
             if not (self.foodRect in self.game.snakePosition):
                 break
 

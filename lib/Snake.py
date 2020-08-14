@@ -22,11 +22,7 @@ class Snake:
         
         
     def moveSnake(self):
-        if self.moveRight:
-            self.imageRect.x += self.speed
-        elif self.moveLeft:
-            self.imageRect.x -= self.speed
-        elif self.moveUp:
-            self.imageRect.y -= self.speed
-        else:
-            self.imageRect.y += self.speed
+        if self.moveRight: self.imageRect.x += self.speed
+        elif self.moveLeft: self.imageRect.x -= self.speed
+        elif self.moveUp: self.imageRect.y -= self.speed
+        else: self.imageRect.y += self.speed

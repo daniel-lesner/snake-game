@@ -19,7 +19,7 @@ class Game:
         ## Set the time clock and delay
         ''' 
         The time delay creates the lag with which the snake moves on the
-        screen, thus, it controls the snake's speed
+        screen, thus, it allows us to control the snake's speed
         '''
         self.clock = pygame.time.Clock()
         self.time_delay = 10
@@ -27,31 +27,22 @@ class Game:
 
         ## Initialize the game screen on FullScreen Mode
         self.screen = pygame.display.set_mode(
-            (0, 0), pygame.FULLSCREEN)
+            (0, 0), 
+            pygame.FULLSCREEN
+        )
         
         
-        ## Create an instance of each class used for the game       
-        self.settings = Settings()
+        ## Create an instance of each class used for this game       
+        self.settings = Settings(self)
         self.snake = Snake(self)
         self.snakeBody = SnakeBody(self)
         self.food = Food(self)
 
         
-        ## Initialise other settings such as screens font or music
-        self.font = pygame.font.Font(pygame.font.get_default_font(), 36)
-        pygame.display.set_caption(self.settings.gameCaption)
-        pygame.mixer.music.load("assets/firstSong.wav")
-        self.title = self.font.render("PYTHON SNAKE", True, self.settings.textColor)
-        self.titleRect = (
-        self.screen.get_rect().midtop[0] - self.title.get_rect()[2] / 2,
-        10)
-
-
         ## Define flags and other variables 
         self.screenRect = self.screen.get_rect()
         self.gameOn = True
-        self.snakePosition = [self.snake.imageRect]
-        self.move = 0
+        self.snakePosition = [self.screenRect.center]
         
         
     def playGame(self):
@@ -70,7 +61,6 @@ class Game:
                 self._checkIfSnakeAteFood()
                 self._checkIfSnakeHitWallOrItself()
                 self._updateScreen()
-                self.move += 1
                 
             while not self.gameOn:
                 # Loop of menu screen
@@ -84,8 +74,7 @@ class Game:
             self.snake.imageRect.x < 35 or
             self.snake.imageRect.y > 1015 or
             self.snake.imageRect.y < 65) or 
-            (self.snake.imageRect in self.listWithBodyPosition
-            and self.food.foodCount > 0)
+            (self.snake.imageRect in self.listWithBodyPosition)
         ):
             self.gameOn = False
 
@@ -163,18 +152,18 @@ class Game:
                 self.settings.gameBackgroundColor,
                 [35, 65, 1850, 1000],
                 0
-                )
+            )
             pygame.draw.rect(
                 self.screen,
                 (0, 0, 0),
                 [35, 65, 1850, 1000],
                 2
-                )
-            self.scoreBoard = self.font.render(
+            )
+            self.scoreBoard = self.settings.font.render(
                 f"POINTS: {self.food.foodCount}",
                 True, 
                 self.settings.textColor
-                )
+            )
             self.screen.blit(self.scoreBoard, (10, 10))
             self.snake.drawOnScreen()
             self.food.drawOnScreen()
@@ -182,18 +171,19 @@ class Game:
 
         else:
             self.screen.fill((self.settings.menuBackgroundColor))
-            self.menuText = self.font.render(
+            self.menuText = self.settings.font.render(
                 f"You lost! Your score was {self.food.foodCount}! " 
                 "Press R to restart or Q to quit",
                 True,
                 self.settings.textColor
-                )
+            )
             self.menuTextRect = (
                 self.screenRect.center[0] - self.menuText.get_rect()[2] / 2,
                 self.screenRect.center[1]
-                )
-            self.screen.blit(self.menuText, self.menuTextRect)  
-        self.screen.blit(self.title, self.titleRect)
+            )
+            self.screen.blit(self.menuText, self.menuTextRect)
+            
+        self.screen.blit(self.settings.title, self.settings.titleRect)
         pygame.display.flip()
         
         
@@ -201,10 +191,10 @@ class Game:
         self.gameOn = self.snake.moveRight = True
         self.snake.moveLeft = self.snake.moveUp = self.snake.moveDown = False
         self.food.foodCount = 0
-        self.listWithBodyPosition = self.snakePosition = []
-        self.snake.imageRect.center = self.snake.screenRect.center
-        self.food.foodRect.x = random.randrange(35, 1836, 50)
-        self.food.foodRect.y = random.randrange(65, 1016, 50)
+        self.snakePosition = [self.screenRect.center]
+        self.snake.imageRect.center = self.screenRect.center
+        self.food.foodRect.x = random.randrange(85, 1786, 50)
+        self.food.foodRect.y = random.randrange(115, 966, 50)
 
 
     def _playMusic(self):
