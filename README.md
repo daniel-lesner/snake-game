@@ -23,9 +23,8 @@ Add virtual environment with dependent modules\
 Create .exe and .dmg app\
 Add menu where you can choose Easy/Normal/Hard game options (with buttons)\
 Add second game type, with no body and increasing speed after eating each food\
+Move to settings all text and screen config elements\
 
 
 BUGs:\
--food may span inside body of snake\
--food may span in the place where snake starts, which breaks the game\
--sometimes the collision between and the snake and its body is not registered
+- none left

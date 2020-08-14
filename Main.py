@@ -50,7 +50,7 @@ class Game:
         ## Define flags and other variables 
         self.screenRect = self.screen.get_rect()
         self.gameOn = True
-        self.snakePosition = self.listWithBodyPosition = []
+        self.snakePosition = [self.snake.imageRect]
         self.move = 0
         
         
@@ -60,13 +60,14 @@ class Game:
             # Loop of the game
             self._playMusic()
             self._resetGame()
+            self.food.spanFood()
 
             while self.gameOn:
                 # Loop for the actual game
                 self._checkEvents()
                 self.snake.moveSnake()
                 self._createListWithFoodAndSnakeCoordinates()
-                self._checkIfAteFood()
+                self._checkIfSnakeAteFood()
                 self._checkIfSnakeHitWallOrItself()
                 self._updateScreen()
                 self.move += 1
@@ -84,19 +85,24 @@ class Game:
             self.snake.imageRect.y > 1015 or
             self.snake.imageRect.y < 65) or 
             (self.snake.imageRect in self.listWithBodyPosition
-            and self.food.foodCount > 0)):
-
+            and self.food.foodCount > 0)
+        ):
             self.gameOn = False
 
-    def _checkIfAteFood(self):
+
+    def _checkIfSnakeAteFood(self):
         if (self.snake.imageRect.x in range(
             self.food.foodRect.x - 49, 
             self.food.foodRect.x + 50
-            ) and self.snake.imageRect.y in range(
+            ) and 
+            self.snake.imageRect.y in range(
                 self.food.foodRect.y - 49,
                 self.food.foodRect.y + 50
-                )):
-            self.food.foodEaten()
+            )
+        ):
+            self.food.spanFood()
+            self.food.increaseFoodCount()
+
 
     def _createListWithFoodAndSnakeCoordinates(self):
         ''' 
@@ -113,7 +119,6 @@ class Game:
         self.listWithBodyPosition = self.snakePosition[
             -self.food.foodCount - 1: -1
         ]
-
 
 
     def _checkEvents(self):
