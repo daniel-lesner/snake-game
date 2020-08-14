@@ -15,7 +15,6 @@ class Game:
     def __init__(self):
         pygame.init()
 
-
         ## Set the time clock and delay
         ''' 
         The time delay creates the lag with which the snake moves on the
@@ -46,7 +45,6 @@ class Game:
         
         
     def playGame(self):
-        
         while True:
             # Loop of the game
             self._playMusic()
@@ -59,7 +57,7 @@ class Game:
                 self.snake.moveSnake()
                 self._createListWithFoodAndSnakeCoordinates()
                 self._checkIfSnakeAteFood()
-                self._checkIfSnakeHitWallOrItself()
+                self.snake.checkIfSnakeHitWallOrItself()
                 self._updateScreen()
                 
             while not self.gameOn:
@@ -68,47 +66,6 @@ class Game:
                 self._updateScreen()
                 self._checkEvents()
   
-    
-    def _checkIfSnakeHitWallOrItself(self):
-        if ((self.snake.imageRect.x > 1835 or
-            self.snake.imageRect.x < 35 or
-            self.snake.imageRect.y > 1015 or
-            self.snake.imageRect.y < 65) or 
-            (self.snake.imageRect in self.listWithBodyPosition)
-        ):
-            self.gameOn = False
-
-
-    def _checkIfSnakeAteFood(self):
-        if (self.snake.imageRect.x in range(
-            self.food.foodRect.x - 49, 
-            self.food.foodRect.x + 50
-            ) and 
-            self.snake.imageRect.y in range(
-                self.food.foodRect.y - 49,
-                self.food.foodRect.y + 50
-            )
-        ):
-            self.food.spanFood()
-            self.food.increaseFoodCount()
-
-
-    def _createListWithFoodAndSnakeCoordinates(self):
-        ''' 
-            This method is creating a list with the most recent snake head
-        coordinates. Using this list, we will know what will be the coordinates
-        of the snake's body, which will help us to render the whole snake on
-        the screen
-        '''
-        self.snakePosition.append(self.snake.imageRect[:])
-        if self.food.foodCount > 0:
-            self.snakePosition = self.snakePosition[-self.food.foodCount - 2:]
-        else:
-            self.snakePosition = self.snakePosition[-2:]
-        self.listWithBodyPosition = self.snakePosition[
-            -self.food.foodCount - 1: -1
-        ]
-
 
     def _checkEvents(self):
         if self.gameOn:
@@ -182,11 +139,42 @@ class Game:
                 self.screenRect.center[1]
             )
             self.screen.blit(self.menuText, self.menuTextRect)
-            
+
         self.screen.blit(self.settings.title, self.settings.titleRect)
         pygame.display.flip()
-        
-        
+
+
+    def _checkIfSnakeAteFood(self):
+        if (self.snake.imageRect.x in range(
+            self.food.foodRect.x - 49, 
+            self.food.foodRect.x + 50
+            ) and 
+            self.snake.imageRect.y in range(
+                self.food.foodRect.y - 49,
+                self.food.foodRect.y + 50
+            )
+        ):
+            self.food.spanFood()
+            self.food.increaseFoodCount()
+
+
+    def _createListWithFoodAndSnakeCoordinates(self):
+        ''' 
+            This method is creating a list with the most recent snake head
+        coordinates. Using this list, we will know what will be the coordinates
+        of the snake's body, which will help us to render the whole snake on
+        the screen
+        '''
+        self.snakePosition.append(self.snake.imageRect[:])
+        if self.food.foodCount > 0:
+            self.snakePosition = self.snakePosition[-self.food.foodCount - 2:]
+        else:
+            self.snakePosition = self.snakePosition[-2:]
+        self.listOfBodyCoordinates = self.snakePosition[
+            -self.food.foodCount - 1: -1
+        ]
+
+
     def _resetGame(self):
         self.gameOn = self.snake.moveRight = True
         self.snake.moveLeft = self.snake.moveUp = self.snake.moveDown = False

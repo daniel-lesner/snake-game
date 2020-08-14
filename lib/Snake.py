@@ -7,6 +7,7 @@ class Snake:
     player is presses
     '''
     def __init__(self, game):
+        self.game = game
         self.screen = game.screen
         self.screenRect = game.screen.get_rect()
         self.image = pygame.image.load("assets/snake.bmp")
@@ -26,3 +27,12 @@ class Snake:
         elif self.moveLeft: self.imageRect.x -= self.speed
         elif self.moveUp: self.imageRect.y -= self.speed
         else: self.imageRect.y += self.speed
+
+    def checkIfSnakeHitWallOrItself(self):
+        if ((self.imageRect.x > 1835 or
+            self.imageRect.x < 35 or
+            self.imageRect.y > 1015 or
+            self.imageRect.y < 65) or 
+            (self.imageRect in self.game.listOfBodyCoordinates)
+        ):
+            self.game.gameOn = False

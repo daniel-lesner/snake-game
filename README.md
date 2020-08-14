@@ -23,7 +23,7 @@ Add virtual environment with dependent modules\
 Create .exe and .dmg app\
 Add menu where you can choose Easy/Normal/Hard game options (with buttons)\
 Add second game type, with no body and increasing speed after eating each food\
-Move to settings all text and screen config elements\
+Move screen draw elements to new method\
 
 
 BUGs:\
